@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foro — El negocio detrás del ticker</title>
+<meta name="description" content="Foro. Análisis narrativo independiente de compañías cotizadas españolas, escrito para inversores cualificados y profesionales de los mercados de capitales.">
+<style>
+  :root{
+    --papel:#F6F5F1;
+    --tinta:#191C1F;
+    --piedra:#5C5F58;
+    --sello:#6E1F2E;
+    --hairline:#D8D6CE;
+    --serif:'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+    --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+    --col:680px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+  }
+  body{
+    background:var(--papel);
+    color:var(--tinta);
+    font-family:var(--serif);
+    font-size:18px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--sello);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--sello);outline-offset:3px;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px;}
+  .col{max-width:var(--col);margin:0 auto;}
+
+  /* ---------- Etiquetas utilitarias (sans, versalitas) ---------- */
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--piedra);
+  }
+  .eyebrow--sello{color:var(--sello);}
+
+  /* ---------- Cabecera / mancheta ---------- */
+  header.masthead{padding:56px 0 0;}
+  .rule-double{border-top:3px solid var(--tinta);position:relative;}
+  .rule-double::after{content:"";display:block;border-top:1px solid var(--tinta);margin-top:3px;}
+  .masthead-inner{text-align:center;padding:34px 0 30px;}
+  .wordmark{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(56px,10vw,96px);
+    letter-spacing:.28em;
+    text-indent:.28em; /* compensa el letter-spacing del último carácter */
+    line-height:1;
+  }
+  .tagline{
+    margin-top:14px;
+    font-style:italic;
+    font-size:19px;
+    color:var(--tinta);
+  }
+  .masthead-meta{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--piedra);padding:10px 0;
+  }
+  .posicionamiento{
+    text-align:center;
+    max-width:620px;
+    margin:44px auto 0;
+    font-size:19px;
+    line-height:1.7;
+  }
+  .posicionamiento strong{font-weight:600;}
+
+  /* ---------- Índice de ediciones (libro de registro) ---------- */
+  section.ediciones{margin-top:72px;}
+  .section-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    border-bottom:1px solid var(--tinta);padding-bottom:10px;
+  }
+  .section-head h2{
+    font-size:15px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    font-family:var(--sans);
+  }
+  .section-head span{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--piedra);}
+  ol.registro{list-style:none;}
+  .registro li{border-bottom:1px solid var(--hairline);}
+  .registro a.fila{
+    display:grid;
+    grid-template-columns:110px 1fr auto;
+    gap:24px;
+    align-items:baseline;
+    padding:26px 8px;
+    color:var(--tinta);
+    text-decoration:none;
+  }
+  .registro a.fila:hover{background:rgba(110,31,46,.045);text-decoration:none;}
+  .fila .fecha{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--piedra);}
+  .fila .cuerpo h3{font-size:23px;font-weight:600;line-height:1.25;}
+  .fila .cuerpo .ticker{
+    display:inline-block;margin-left:10px;vertical-align:2px;
+    font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;
+    border:1px solid var(--tinta);padding:2px 7px;color:var(--tinta);
+  }
+  .fila .cuerpo p{margin-top:6px;color:var(--piedra);font-size:16.5px;font-style:italic;}
+  .fila .lectura{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--piedra);white-space:nowrap;}
+  .fila.proxima{cursor:default;}
+  .fila.proxima h3{color:var(--piedra);}
+  .badge-actual{
+    font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--sello);border:1px solid var(--sello);padding:2px 7px;margin-left:10px;vertical-align:3px;
+  }
+
+  /* ---------- Artículo ---------- */
+  article.edicion{margin-top:96px;}
+  .art-head{text-align:center;}
+  .art-head .num{margin-bottom:18px;}
+  .art-head h1{
+    font-size:clamp(36px,6vw,56px);
+    font-weight:600;line-height:1.12;
+    max-width:820px;margin:14px auto 0;
+    letter-spacing:-.005em;
+  }
+  .art-head .sub{
+    font-style:italic;font-size:21px;color:var(--piedra);
+    max-width:640px;margin:18px auto 0;line-height:1.55;
+  }
+  .art-meta{
+    display:flex;justify-content:center;gap:28px;flex-wrap:wrap;
+    margin-top:26px;padding:14px 0;
+    border-top:1px solid var(--tinta);border-bottom:1px solid var(--hairline);
+    font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--piedra);
+  }
+  .art-body{margin-top:56px;}
+  .art-body p{margin-bottom:1.35em;}
+  .art-body h2{
+    font-family:var(--sans);
+    font-size:13px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--sello);
+    margin:72px 0 28px;
+    text-align:center;
+  }
+  .art-body h2::after{
+    content:"";display:block;width:52px;margin:14px auto 0;
+    border-top:1px solid var(--sello);
+  }
+  .art-body h3{
+    font-size:24px;font-weight:600;margin:48px 0 18px;line-height:1.3;
+  }
+  .art-body h3 .rom{color:var(--sello);margin-right:10px;font-weight:400;}
+  .art-body strong{font-weight:600;}
+  .art-body em{font-style:italic;}
+  .dropcap::first-letter{
+    float:left;
+    font-size:74px;line-height:.82;
+    padding:8px 12px 0 0;
+    font-weight:600;color:var(--sello);
+  }
+  .senal{
+    border-top:1px solid var(--hairline);
+    padding:24px 0 6px;
+  }
+  .senal:first-of-type{border-top:1px solid var(--tinta);}
+  .senal .senal-t{
+    font-weight:600;font-size:20px;margin-bottom:8px;
+  }
+  .senal .senal-n{color:var(--sello);margin-right:8px;}
+  .firma{
+    margin-top:64px;text-align:center;
+  }
+  .firma .f-nombre{font-weight:600;font-size:20px;letter-spacing:.06em;}
+  .firma .f-tag{font-style:italic;color:var(--piedra);margin-top:4px;}
+  .nota-legal{
+    margin-top:56px;padding-top:22px;border-top:1px solid var(--hairline);
+    font-size:14.5px;font-style:italic;color:var(--piedra);line-height:1.7;
+  }
+
+  /* ---------- Suscripción / pie ---------- */
+  section.suscripcion{margin-top:110px;}
+  .sus-inner{text-align:center;padding:56px 0 50px;}
+  .sus-inner h2{font-size:30px;font-weight:600;}
+  .sus-inner p{max-width:540px;margin:14px auto 0;color:var(--piedra);}
+  .sus-form{display:flex;justify-content:center;gap:0;margin-top:30px;flex-wrap:wrap;}
+  .sus-form input{
+    font-family:var(--sans);font-size:15px;
+    padding:13px 16px;width:min(340px,100%);
+    border:1px solid var(--tinta);background:transparent;color:var(--tinta);
+    border-radius:0;
+  }
+  .sus-form button{
+    font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    padding:13px 24px;border:1px solid var(--tinta);border-left:none;
+    background:var(--tinta);color:var(--papel);cursor:pointer;border-radius:0;
+  }
+  .sus-form button:hover{background:var(--sello);border-color:var(--sello);}
+  .sus-ok{display:none;margin-top:18px;font-style:italic;color:var(--sello);}
+  footer{margin-top:70px;padding:26px 0 64px;}
+  footer .pie{
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--piedra);
+    padding-top:14px;
+  }
+
+  @media (max-width:640px){
+    body{font-size:17px;}
+    .registro a.fila{grid-template-columns:1fr;gap:8px;padding:22px 4px;}
+    .fila .lectura{order:-1;}
+    .art-meta{gap:14px;}
+    .sus-form button{border-left:1px solid var(--tinta);margin-top:10px;width:min(340px,100%);}
+    .dropcap::first-letter{font-size:58px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= MANCHETA ================= -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-meta">
+      <span>Madrid · Barcelona</span>
+      <span id="fecha-hoy">Julio 2026</span>
+    </div>
+    <div class="rule-double"></div>
+    <div class="masthead-inner">
+      <div class="wordmark">FORO</div>
+      <p class="tagline">El negocio detrás del ticker</p>
+    </div>
+    <div class="rule-double"></div>
+
+    <p class="posicionamiento">
+      Foro escribe la historia de negocio de las compañías del mercado de capitales español —
+      cotizadas y pre-cotización — para <strong>inversores cualificados, family offices y profesionales
+      de mercados primarios</strong>. Análisis narrativo, independiente y elaborado exclusivamente
+      con información pública. Una edición, una compañía, una tesis que discutir.
+    </p>
+  </div>
+</header>
+
+<!-- ================= ÍNDICE DE EDICIONES ================= -->
+<section class="ediciones" id="ediciones">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Ediciones</h2>
+      <span id="contador-ediciones"></span>
+    </div>
+    <ol class="registro" id="registro"><!-- Renderizado por JS --></ol>
+  </div>
+</section>
+
+<!-- ================= EDICIÓN DESTACADA ================= -->
+<article class="edicion" id="grenergy">
+  <div class="wrap">
+    <div class="art-head">
+      <div class="num eyebrow eyebrow--sello">Edición · Grenergy Renovables · BME: GRE</div>
+      <h1>La máquina de rotar activos</h1>
+      <p class="sub">Cómo Grenergy pasó de desarrollador solar a plataforma de gigavatios — y por qué el mercado
+      la premia en el trimestre en que ganó un 92% menos.</p>
+      <div class="art-meta">
+        <span>2 de julio de 2026</span>
+        <span>12–14 min de lectura</span>
+        <span>Información pública · CNMV</span>
+      </div>
+    </div>
+
+    <div class="col art-body">
+
+      <h2>La escena</h2>
+
+      <p class="dropcap">Madrid, 27 de mayo de 2026. Ocho y media de la mañana. En la pantalla del webcast de resultados de Grenergy Renovables aparece la diapositiva que cualquier director financiero preferiría no presentar nunca: ingresos del primer trimestre, 143 millones de euros, un 40% menos que el año anterior. EBITDA, 5 millones, un 92% menos. Beneficio neto, 2 millones, un 94% menos.</p>
+
+      <p>En casi cualquier cotizada del Mercado Continuo, esa diapositiva abriría una llamada tensa, con analistas afilando preguntas sobre guidance y consejeros mirando el móvil. Aquí ocurre lo contrario. David Ruiz de Andrés, fundador y consejero delegado, pasa a la siguiente diapositiva sin cambiar el tono: Grenergy eleva su plan de inversión hasta 3.700 millones de euros a 2028. Lanza una nueva plataforma en España. Anuncia que va a construir centros de datos en Chile.</p>
+
+      <p>Y el mercado, que llevaba semanas empujando la acción a máximos históricos — en subida libre, sin resistencias por encima —, no solo no castiga el trimestre: en las semanas siguientes la cotización sigue instalada por encima de los 110 euros, con una revalorización superior al 80% en doce meses.</p>
+
+      <p>Una empresa que gana un 92% menos y vale más que nunca. O el mercado se ha vuelto loco, o la cuenta de resultados de Grenergy ya no se lee como la de una empresa normal.</p>
+
+      <p>Esta edición va de por qué es lo segundo. De la máquina que Grenergy ha construido durante tres años, de cómo funciona por dentro, y de la única pregunta que de verdad importa para lo que viene.</p>
+
+      <h2>El ensayo</h2>
+
+      <h3><span class="rom">I.</span>El mundo de antes</h3>
+
+      <p>Grenergy nace en 2007, en plena burbuja fotovoltaica española, fundada por David Ruiz de Andrés. Sobrevive al colapso regulatorio de las primas, cruza el Atlántico, y encuentra en Chile su primer terreno fértil: los PMGD, pequeños proyectos de generación distribuida con precio estabilizado, que se desarrollan rápido, se construyen barato y se venden bien. En 2015 sale al MAB — el actual BME Growth — y en 2019 da el salto al Mercado Continuo.</p>
+
+      <p>El modelo de aquellos años es el de un desarrollador puro: identificar suelo, conseguir conexión, tramitar permisos, construir y vender. <em>Build-to-sell</em>. Un negocio legítimo, rentable en los buenos ciclos, y con un defecto estructural que cualquiera que haya trabajado en él conoce bien: <strong>cada uno de enero, el contador vuelve a cero</strong>. Los ingresos dependen de qué proyectos se vendan ese año concreto. No hay recurrencia. No hay base. Hay pipeline y esperanza.</p>
+
+      <p>En 2022, Grenergy factura 293 millones y genera 50 de EBITDA. Es una mid-cap solar respetable en un mercado lleno de mid-caps solares respetables. Nada en esos números anticipa lo que viene después.</p>
+
+      <h3><span class="rom">II.</span>El problema (y la oportunidad escondida dentro)</h3>
+
+      <p>Hacia 2022-2023 convergen dos problemas sobre el sector, y sobre Grenergy en particular.</p>
+
+      <p>El primero es la <strong>canibalización solar</strong>. En mercados con alta penetración fotovoltaica — Chile y España son los dos casos más agudos del mundo occidental — todos los paneles producen a las mismas horas. El precio capturado en las horas solares se hunde; hay horas de precio cero o negativo. Ser un productor solar puro significa vender exactamente cuando venden todos los demás. El activo que construyes hoy vale menos por MWh cada año que pasa.</p>
+
+      <p>El segundo es el <strong>muro de capital</strong>. Pasar de proyectos de decenas de megavatios a plataformas de gigavatios exige miles de millones que el balance de una mid-cap no puede sostener. Las respuestas clásicas son dos: diluir — Grenergy hizo una ampliación de 90 millones en 2022 — o apalancarse hasta donde los bancos aguanten. Ninguna de las dos escala hasta donde la compañía quería llegar.</p>
+
+      <p>La oportunidad estaba escondida dentro del primer problema. Si la canibalización hunde el precio de las horas solares, el valor migra hacia quien pueda <strong>desplazar la energía</strong>: almacenarla al mediodía y venderla de noche. En el desierto de Atacama — la mejor radiación solar del planeta, junto a una minería del cobre que consume energía 24 horas al día y paga en dólares — esa ecuación era más nítida que en ningún otro lugar del mundo.</p>
+
+      <h3><span class="rom">III.</span>La decisión</h3>
+
+      <p>El 21 de noviembre de 2023, en su Capital Markets Day, Grenergy hace dos anuncios que en su momento sonaron desproporcionados para su tamaño.</p>
+
+      <p>El primero: <strong>Oasis de Atacama</strong>, presentado entonces como el mayor proyecto de almacenamiento del mundo — alrededor de 1 GW solar y 4,1 GWh de baterías —, dentro de un plan de inversión de 2.600 millones de euros a 2026. Una compañía que capitalizaba una fracción de esa cifra anunciando que iba a construir el mayor parque de baterías del planeta.</p>
+
+      <p>El segundo anuncio era menos vistoso y es, en realidad, el corazón de toda esta historia: la <strong>rotación de activos formalizada como motor de financiación</strong>. No ventas oportunistas cuando aparece un comprador, sino una fábrica con cadencia anual: construir con project finance sin recurso, vender participaciones a fondos de infraestructuras con prima sobre el capital invertido, y reciclar ese capital hacia la siguiente fase. El desarrollador deja de vender proyectos para vivir; vende proyectos para <strong>financiar los siguientes sin diluir al accionista</strong>.</p>
+
+      <p>El almacenamiento cambia además <em>qué</em> se vende. Un parque solar puro es una commodity expuesta a la canibalización. Un activo híbrido con PPA 24/7 firmado con una minera o una utility es exactamente el producto que los fondos de infraestructuras quieren comprar: flujos contratados a 15 años, en dólares, con contraparte investment grade.</p>
+
+      <p>En mayo de 2025, en Londres, el segundo Capital Markets Day remata la tesis: plan elevado a 3.500 millones, <strong>dos tercios del capex reasignados a baterías</strong>, y el objetivo de rotación subido a 800 millones después de cumplir el anterior — 600 — con dos años de adelanto. La compañía había dejado de ser un desarrollador solar. Era otra cosa, y todavía no tenía nombre.</p>
+
+      <h3><span class="rom">IV.</span>La ejecución</h3>
+
+      <p>Lo que separa esta historia de otras cien presentaciones ambiciosas de mid-caps es que los hitos, trimestre tras trimestre, se han ido cumpliendo o superando. El repaso es casi mecánico.</p>
+
+      <p><strong>Construcción.</strong> 1,3 GW solares y cerca de 8 GWh de baterías construidos en 18 meses. Quillagua, Victor Jara y Gabriela conectados en Atacama; Elena I, con 3,5 GWh, la fase de baterías más grande hasta la fecha, ya en operación. A cierre del primer trimestre de 2026: 2,2 GW y 8,6 GWh entre operación y construcción.</p>
+
+      <p><strong>Rotación.</strong> Las fases 1 a 3 de Oasis de Atacama vendidas a ContourGlobal por un valor de empresa cercano a los 1.000 millones de dólares, a 1,6 veces el capital invertido. Gabriela (fase 4) vendida a DIF, del grupo CVC, por unos 500 millones a 1,8 veces. Desde 2017, 73 proyectos rotados a una media de 1,6x EV/IC. Más del 60% del objetivo trianual de rotación se cumplió solo en 2025.</p>
+
+      <p><strong>Financiación.</strong> Cerca de 2.000 millones de dólares en project finance firmados desde mediados de 2024 — Quillagua, Victor Jara, Gabriela, Elena, Gran Teno-Tamango-Planchón, Monte Águila — con un sindicato que incluye a BNP Paribas, Natixis, Scotiabank, Santander, SMBC o Rabobank, y otros 1.000 millones mandatados. En marzo de 2026, un bono verde corporativo de 170 millones de euros en el MARF.</p>
+
+      <p><strong>Comercialización.</strong> El primer PPA baseload 24/7 con Codelco. Un PPA híbrido de 400 GWh/año a 20 años con Georgia Power en Estados Unidos. Tollings financieros a 10 y 12 años para las baterías de Oviedo y Escuderos en España. 2,9 GWh adjudicados en subastas de capacidad en Reino Unido y Polonia. GR Power, la comercializadora del grupo, contrató 2,1 TWh/año solo en el último ejercicio.</p>
+
+      <p>Cada pieza refuerza a las demás: los PPA hacen financiables los proyectos, el project finance permite construirlos sin consumir el balance, la construcción a coste decreciente de baterías (de 0,20 a 0,09 millones de dólares por MWh híbrido entre 2023 y 2026) engorda el margen, y la venta con prima recicla el capital hacia la siguiente fase. Una rueda que gira más rápido en cada vuelta.</p>
+
+      <h3><span class="rom">V.</span>El punto de inflexión</h3>
+
+      <p>Y así llegamos de vuelta al 27 de mayo de 2026, y a la diapositiva del EBITDA de 5 millones.</p>
+
+      <p>¿Por qué es tan bajo? Porque en el primer trimestre <strong>no se cerró ninguna rotación</strong>. La división de desarrollo y construcción, que un año antes había aportado 55 millones de EBITDA gracias a las ventas de activos, aportó esta vez 2 millones negativos. La cuenta de resultados de Grenergy respira al ritmo del calendario de M&amp;A: los trimestres con cierre de ventas son extraordinarios, los trimestres sin cierre parecen un desastre. <strong>La irregularidad no es un accidente del modelo; es el modelo.</strong></p>
+
+      <p>Lo mismo ocurre con la deuda. El apalancamiento total reportado, 8,1 veces EBITDA, es un número que asustaría en cualquier otra compañía. Proforma — descontando la venta ya acordada de Gabriela y de los activos de distribución en Colombia —, baja a 2,4 veces. Entre un número y otro media, simplemente, que los cierres firmados se ejecuten.</p>
+
+      <p>Lo que convierte ese día en un punto de inflexión no son los resultados: es la respuesta de la compañía a sus propios resultados. En lugar de gestionar el trimestre, Grenergy sube la apuesta y se presenta por primera vez como lo que su cuenta de resultados todavía no refleja: una plataforma con tres negocios.</p>
+
+      <p><strong>Uno.</strong> Las plataformas Oasis — Atacama, Central y la nueva <strong>Iberian Oasis</strong> —, 5 GW y 22 GWh en conjunto. Iberian Oasis es la pieza estratégica: replicar en España, con 1 GW solar, 3,2 GWh de baterías y unos 1.000 millones de capex, el manual híbrido probado en Chile, justo cuando España vive la misma canibalización que Chile vivió tres años antes.</p>
+
+      <p><strong>Dos. Greenbox</strong>, la plataforma europea de baterías standalone: 30 GWh de pipeline en seis países, 9 en desarrollo avanzado, objetivo de 8 GWh en operación o construcción en 2028, con Oviedo (660 MWh, tolling firmado a 10 años por el 80% de la capacidad) como primer buque insignia español.</p>
+
+      <p><strong>Tres. GR Data</strong>, la sorpresa del día: 1 GW IT de suelo energizado para centros de datos en Chile — dos campus cloud junto a Santiago y Atacama Data, orientado a entrenamiento de IA —, apoyado en lo único que Grenergy tiene y los hyperscalers no: punto de conexión a red asegurado y la energía 24/7 más barata del hemisferio.</p>
+
+      <p>El plan sube a 3.700 millones a 2028, con Europa pasando de un 15% a un 45% del capex. Y por si el mercado dudaba de la maquinaria comercial, junio lo despeja: el día 1, PPA híbrido para Algarrobal, la fase 5 de Atacama; el día 30, un <strong>PPA nocturno de 1 TWh anual durante 15 años</strong> con una utility global investment grade, el mayor contrato por volumen de la historia de la compañía. Vender la noche. Exactamente para eso se construyeron los 14 GWh de baterías.</p>
+
+      <h3><span class="rom">VI.</span>La pregunta abierta</h3>
+
+      <p>Grenergy es hoy tres compañías grapadas en un mismo ticker: una fábrica de proyectos que vive de la rotación, una energética en construcción (GR Power apunta a más de 5 TWh/año en 2028, con una guía de EBITDA run-rate de 450-500 millones para 2027) y, desde mayo, una promotora de infraestructura digital.</p>
+
+      <p>La tesis optimista es que el EBITDA recurrente de la pata energética crece hasta hacer irrelevante la volatilidad de la rotación, la cuenta de resultados se estabiliza, y el mercado termina pagando la compañía como una utility de nueva generación en lugar de como un desarrollador.</p>
+
+      <p>La tesis escéptica es igual de seria. La rotación es el oxígeno del modelo, y depende de que los fondos de infraestructuras sigan comprando a 1,6-1,8 veces el capital invertido — un mercado que ha sido generoso y que es, por naturaleza, cíclico. El 8,1x de apalancamiento solo se convierte en 2,4x si los compradores siguen apareciendo puntualmente. Y GR Data, con todo su sentido industrial, abre un frente de capital contra los calendarios de hyperscalers en un país con sus propias tensiones de red y su propio ciclo político.</p>
+
+      <p>Los modelos que dependen del calendario de transacciones ajenas viven espléndidamente en los ciclos buenos. La historia del mercado de capitales está llena de compañías que confundieron un ciclo bueno con un modelo probado.</p>
+
+      <p>La pregunta que nos hacemos al cerrar esta edición no es si Grenergy sabe ejecutar — tres años de hitos cumplidos lo han demostrado. Es otra, más incómoda y más interesante: <strong>¿puede convertir una máquina transaccional en una compañía de ingresos recurrentes antes de que el ciclo de M&amp;A de activos renovables se dé la vuelta?</strong> La carrera entre esas dos curvas — el EBITDA recurrente que sube y el ciclo comprador que algún día bajará — es la única gráfica que de verdad importa en este ticker.</p>
+
+      <h2>Tres señales</h2>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">1 ·</span>El cierre de Gabriela (2T-3T 2026)</p>
+        <p>La venta a DIF por unos 500 millones de dólares está firmada pero no cerrada. De ella depende que el apalancamiento total baje de 8,1x al 2,4x proforma que la compañía comunica. Si el cierre se desliza más allá del tercer trimestre, la conversación sobre el balance cambia de tono.</p>
+      </div>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">2 ·</span>El EBITDA de Energía en los resultados del 2T y 3T</p>
+        <p>Elena I — 3,5 GWh — está en operación y la compañía espera de ella 70-90 millones de EBITDA en su primer año completo; el PPA nocturno de 1 TWh/año firmado el 30 de junio es la prueba de que las horas no solares se monetizan a escala. Si la línea de Energía no acelera con fuerza en los próximos dos trimestres, la tesis de la recurrencia pierde su principal evidencia.</p>
+      </div>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">3 ·</span>Iberian Oasis y la regulación española</p>
+        <p>Hay 700 MW «en negociación» dentro de la nueva plataforma española y Oviedo debe conectarse en el primer trimestre de 2027. El manual chileno viaja a España justo cuando el regulador debate los pagos por capacidad. Cada megavatio que pase de «negociación» a «backlog» — y cada avance del marco retributivo del almacenamiento en España — valida (o no) la mitad europea de los 3.700 millones.</p>
+      </div>
+
+      <h2>La próxima</h2>
+
+      <p>La siguiente historia empieza en Palma de Mallorca, en una compañía que casi nadie sabría nombrar y por cuyos sistemas pasan más de 46 millones de noches de hotel al año. Protagonizó la mayor salida a bolsa española del último ciclo — la operación que tenía que reabrir el mercado de OPVs después de tres estrenos fallidos — y su primer año como cotizada es una lección sobre lo que el mercado primario español hace bien, y lo que sigue haciendo mal.</p>
+
+      <p>Si trabajas en mercados de capitales, ya sabes de quién hablamos. Si no, en dos semanas lo sabrás.</p>
+
+      <div class="firma">
+        <p class="f-nombre">— FORO</p>
+        <p class="f-tag">El negocio detrás del ticker</p>
+      </div>
+
+      <p class="nota-legal">Nota editorial: Foro elige libremente las compañías que cubre y no recibe compensación alguna de ellas por esta cobertura. Esta edición se ha elaborado exclusivamente con información pública (comunicaciones a la CNMV, presentaciones de resultados y comunicados de la compañía). Foro no es una empresa de servicios de inversión: nada de lo anterior constituye una recomendación de inversión, un precio objetivo ni asesoramiento financiero.</p>
+
+    </div>
+  </div>
+</article>
+
+<!-- ================= SUSCRIPCIÓN ================= -->
+<section class="suscripcion">
+  <div class="wrap">
+    <div class="rule-double"></div>
+    <div class="sus-inner">
+      <p class="eyebrow eyebrow--sello" style="margin-bottom:16px;">Una edición · Una compañía · Una tesis</p>
+      <h2>Reciba la próxima edición</h2>
+      <p>Análisis narrativo del mercado de capitales español, directo a su correo. Sin coberturas pagadas, sin recomendaciones, sin ruido.</p>
+      <form class="sus-form" id="form-sus" novalidate>
+        <input type="email" id="email-sus" placeholder="Su correo profesional" aria-label="Correo electrónico" required>
+        <button type="submit">Suscribirme</button>
+      </form>
+      <p class="sus-ok" id="sus-ok">Recibido. La próxima edición llegará a su correo.</p>
+    </div>
+    <div class="rule-double"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="pie">
+      <span>Foro © 2026</span>
+      <span>Independencia editorial · Solo información pública</span>
+      <span><a href="#ediciones" style="color:inherit;">Ediciones</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   Registro de ediciones.
+   Para añadir una edición futura:
+   1) Añadir el <article> con su id.
+   2) Añadir un objeto a este array. Nada más.
+   ========================================================= */
+const EDICIONES = [
+  {
+    id: "grenergy",
+    fecha: "02 · Jul · 2026",
+    empresa: "Grenergy Renovables",
+    ticker: "BME: GRE",
+    titulo: "La máquina de rotar activos",
+    resumen: "El trimestre en que Grenergy ganó un 92% menos — y el mercado la llevó a máximos históricos.",
+    lectura: "12–14 min",
+    actual: true
+  },
+  {
+    id: null, // sin artículo todavía → fila "próximamente"
+    fecha: "Jul · 2026",
+    empresa: "Próxima edición",
+    ticker: "BME",
+    titulo: "46 millones de noches de hotel al año",
+    resumen: "La mayor OPV española del último ciclo, un año después. Desde Palma de Mallorca.",
+    lectura: "Próximamente",
+    actual: false
+  }
+];
+
+(function renderRegistro(){
+  const ol = document.getElementById("registro");
+  EDICIONES.forEach(ed => {
+    const li = document.createElement("li");
+    const enlace = ed.id ? `href="#${ed.id}"` : 'tabindex="-1" aria-disabled="true"';
+    li.innerHTML = `
+      <a class="fila ${ed.id ? "" : "proxima"}" ${enlace}>
+        <span class="fecha">${ed.fecha}</span>
+        <span class="cuerpo">
+          <h3>${ed.titulo}
+            <span class="ticker">${ed.ticker}</span>
+            ${ed.actual ? '<span class="badge-actual">Edición actual</span>' : ""}
+          </h3>
+          <p>${ed.empresa} — ${ed.resumen}</p>
+        </span>
+        <span class="lectura">${ed.lectura}</span>
+      </a>`;
+    ol.appendChild(li);
+  });
+  const publicadas = EDICIONES.filter(e => e.id).length;
+  document.getElementById("contador-ediciones").textContent =
+    publicadas + (publicadas === 1 ? " edición publicada" : " ediciones publicadas");
+})();
+
+/* Fecha viva en la mancheta */
+(function fechaMancheta(){
+  try{
+    const f = new Date();
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    document.getElementById("fecha-hoy").textContent = meses[f.getMonth()] + " " + f.getFullYear();
+  }catch(e){/* la fecha estática ya sirve de respaldo */}
+})();
+
+/* Suscripción (demostración: sin backend, estado en memoria) */
+document.getElementById("form-sus").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  const input = document.getElementById("email-sus");
+  const ok = document.getElementById("sus-ok");
+  if(!input.value || !input.value.includes("@")){
+    input.style.borderColor = "var(--sello)";
+    input.setAttribute("placeholder","Introduzca un correo válido");
+    input.value = "";
+    return;
+  }
+  this.style.display = "none";
+  ok.style.display = "block";
+});
+</script>
+
+</body>
+</html>
