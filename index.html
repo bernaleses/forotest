@@ -90,6 +90,10 @@
     font-family:var(--sans);
   }
   .section-head span{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--piedra);}
+  .indice-nota{
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--piedra);text-align:right;margin-top:10px;
+  }
   ol.registro{list-style:none;}
   .registro li{border-bottom:1px solid var(--hairline);}
   .registro a.fila{
@@ -100,8 +104,14 @@
     padding:26px 8px;
     color:var(--tinta);
     text-decoration:none;
+    cursor:pointer;
   }
   .registro a.fila:hover{background:rgba(110,31,46,.045);text-decoration:none;}
+  .registro a.fila.leyendo{
+    background:rgba(110,31,46,.06);
+    border-left:3px solid var(--sello);
+    padding-left:12px;
+  }
   .fila .fecha{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--piedra);}
   .fila .cuerpo h3{font-size:23px;font-weight:600;line-height:1.25;}
   .fila .cuerpo .ticker{
@@ -117,9 +127,18 @@
     font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
     color:var(--sello);border:1px solid var(--sello);padding:2px 7px;margin-left:10px;vertical-align:3px;
   }
+  .badge-leyendo{
+    font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--papel);background:var(--sello);border:1px solid var(--sello);
+    padding:2px 7px;margin-left:10px;vertical-align:3px;
+    display:none;
+  }
+  .fila.leyendo .badge-leyendo{display:inline-block;}
 
   /* ---------- Artículo ---------- */
-  article.edicion{margin-top:96px;}
+  article.edicion{margin-top:96px;display:none;}
+  article.edicion.abierta{display:block;animation:aparecer .35s ease;}
+  @keyframes aparecer{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
   .art-head{text-align:center;}
   .art-head .num{margin-bottom:18px;}
   .art-head h1{
@@ -215,6 +234,7 @@
   @media (max-width:640px){
     body{font-size:17px;}
     .registro a.fila{grid-template-columns:1fr;gap:8px;padding:22px 4px;}
+    .registro a.fila.leyendo{padding-left:12px;}
     .fila .lectura{order:-1;}
     .art-meta{gap:14px;}
     .sus-form button{border-left:1px solid var(--tinta);margin-top:10px;width:min(340px,100%);}
@@ -255,10 +275,148 @@
       <span id="contador-ediciones"></span>
     </div>
     <ol class="registro" id="registro"><!-- Renderizado por JS --></ol>
+    <p class="indice-nota">Seleccione una edición para leerla a continuación</p>
   </div>
 </section>
 
-<!-- ================= EDICIÓN ACTUAL · TALGO ================= -->
+<!-- ================= EDICIÓN ACTUAL · CAF ================= -->
+<article class="edicion" id="caf">
+  <div class="wrap">
+    <div class="art-head">
+      <div class="num eyebrow eyebrow--sello">Edición · CAF · BME: CAF</div>
+      <h1>Dieciocho mil millones sin hacer ruido</h1>
+      <p class="sub">Cómo el fabricante más discreto del Mercado Continuo le ganó el «contrato del siglo» a Alstom
+      y Siemens — y por qué su problema ya no es vender trenes, sino fabricarlos con margen.</p>
+      <div class="art-meta">
+        <span>30 de julio de 2026</span>
+        <span>12–14 min de lectura</span>
+        <span>Información pública · CNMV</span>
+      </div>
+    </div>
+
+    <div class="col art-body">
+
+      <h2>La escena</h2>
+
+      <p class="dropcap">Bruselas, viernes 19 de diciembre de 2025. El consejo de administración de la SNCB — la Renfe belga — se reúne para cerrar la mayor compra de material rodante de la historia del país: la renovación de la flota que vertebra Bélgica. Sobre la mesa, una decisión que Francia ha intentado impedir por todas las vías posibles. Alstom ha presentado recursos. Siemens ha presentado recursos. El Consejo de Estado belga los ha ido rechazando uno a uno, el último apenas unos días antes. Alstom ha llegado a argumentar en público que adjudicar el contrato fuera perjudicaría a los propios ciudadanos belgas, porque ella sí tiene fábrica en suelo belga.</p>
+
+      <p>El consejo vota. Y el llamado «contrato del siglo» — un acuerdo marco de 180 trenes AM30 por más de 1.700 millones de euros, ampliable hasta 380 unidades adicionales, 54.000 plazas que pueden llegar a 170.000, doce años de programa — se adjudica a una compañía guipuzcoana con sede en Beasain, un pueblo de 14.000 habitantes, de la que la mayoría de los lectores de prensa económica española sería incapaz de citar un solo titular reciente.</p>
+
+      <p>Es el contrato más grande en más de un siglo de historia de CAF. La acción apenas lo celebra: lleva todo el año subiendo. Cerrará 2025 con una revalorización del 69%, la mejor de su historia bursátil.</p>
+
+      <p>Y aquí está lo que hace a esta compañía tan interesante para el lector de mercados de capitales: dos semanas antes, en este mismo espacio, contábamos la historia de Talgo — el fabricante español de trenes que todo el mundo conoce, el de los rescates, los vetos del Gobierno y las fisuras en los bogies. CAF es <em>el otro</em> fabricante español de trenes. Opera en el mismo sector, en el mismo país, bajo la misma regulación y contra los mismos gigantes. Y es, en casi todo lo que importa, su inverso exacto: cartera récord de 17.960 millones de euros — ocho veces su capitalización bursátil, y aquí nadie lo llama anomalía —, deuda neta de 0,5 veces EBITDA, cuarenta y dos por ciento más de beneficio, y ni un solo frente existencial abierto.</p>
+
+      <p>Esta edición va de cómo se construye eso. Y de por qué el problema de CAF, precisamente por haber resuelto todos los demás, es hoy el más difícil de su industria: convertir un volumen histórico en un margen que deje de ser el punto débil de la tesis.</p>
+
+      <h2>El ensayo</h2>
+
+      <h3><span class="rom">I.</span>El mundo de antes</h3>
+
+      <p>CAF es, antes que una cotizada, una institución industrial. Sus raíces se remontan a los talleres metalúrgicos guipuzcoanos del siglo XIX; como Construcciones y Auxiliar de Ferrocarriles existe desde 1917. Durante décadas fue lo que su nombre indica: el proveedor auxiliar del ferrocarril español, con Renfe y los metros de las grandes ciudades como clientes ancla — solo a Metro de Madrid le ha entregado más de 600 unidades a lo largo de su historia.</p>
+
+      <p>Su estructura de capital cuenta la misma historia que su cuenta de resultados: la Cartera Social — vinculada a los propios trabajadores — controla el 23,3% del capital; la fundación bancaria BBK, otro 13,2%. La mitad de la compañía está anclada en Gipuzkoa y Bizkaia, con horizontes que se miden en décadas, no en trimestres. Es el tipo de accionariado que no exige crecer a cualquier precio — y que tampoco permite las aventuras de balance que acabaron con otros.</p>
+
+      <p>Sobre esa base, CAF hizo durante los últimos veinticinco años lo más difícil de hacer en su industria sin que nadie escribiera sobre ello: internacionalizarse de verdad. Metros, tranvías y trenes regionales en decenas de ciudades de Europa, América y Asia-Pacífico. En la última década, sus ingresos ferroviarios crecieron a un ritmo anual compuesto del 10%, frente al 3% del mercado. Sin una sola crisis de portada.</p>
+
+      <p>El problema es que crecer bien en este sector no equivale a ganar bien. La fabricación ferroviaria europea es uno de los peores negocios buenos del mundo: contratos a precio cerrado que se ejecutan durante cinco o diez años, capital circulante devorador, penalizaciones por retraso, y un puñado de compradores públicos con todo el poder de negociación. El margen EBIT medio de CAF en la última década es del 6%. Ese número — no la demanda, no la tecnología — es la frontera de todo lo que viene después.</p>
+
+      <h3><span class="rom">II.</span>El problema</h3>
+
+      <p>Hacia 2017-2018, CAF se enfrenta a un problema estratégico que no es una crisis, sino algo más lento y más peligroso: la irrelevancia por tamaño.</p>
+
+      <p>El sector se está consolidando por arriba. Siemens y Alstom intentan fusionarse; Bruselas lo impide en 2019, pero Alstom absorbe Bombardier Transportation en 2021 y se convierte en un gigante de más de 15.000 millones de facturación. Al fondo, CRRC — el conglomerado estatal chino, el mayor fabricante del mundo — presiona los precios en cada mercado abierto. Una compañía de 1.500-2.000 millones de ingresos ferroviarios, mono-producto y euro-céntrica, corre el riesgo de quedar atrapada en tierra de nadie: demasiado pequeña para las economías de escala de los grandes, demasiado grande para vivir de nichos.</p>
+
+      <p>Y a ese problema estructural se le suma, a partir de 2021, uno coyuntural que envenena a toda la industria: la inflación. Los contratos firmados a precio cerrado en 2018 o 2019 se ejecutan con los costes de 2022 y 2023. CAF lo reconoce con una franqueza inusual en sus propias presentaciones: la rentabilidad ferroviaria se modera «por el mix de proyectos en ejecución y el impacto de los proyectos afectados por la inflación». Esa frase, repetida trimestre tras trimestre, es la herida abierta que la cartera vieja sigue dejando en la cuenta de resultados actual.</p>
+
+      <p>El lector de la edición anterior reconocerá el patrón: es exactamente la enfermedad que se llevó por delante a Talgo. La diferencia está en la dosis — y en lo que cada compañía había construido alrededor de la fabricación para amortiguarla.</p>
+
+      <h3><span class="rom">III.</span>La decisión</h3>
+
+      <p>La respuesta de CAF no fue un anuncio grandilocuente en un Capital Markets Day. Fueron tres decisiones tomadas a lo largo de varios años que, leídas juntas desde 2026, forman una doctrina.</p>
+
+      <p><strong>La primera: comprar Solaris.</strong> En 2018, CAF adquiere el fabricante polaco de autobuses urbanos, una operación de unos 300 millones de euros que en su momento generó más escepticismo que entusiasmo: un fabricante de trenes comprando un negocio de autobuses de márgenes exiguos en plena incógnita sobre la electrificación. Visto desde hoy, fue comprar el billete de entrada al mayor viento de cola regulatorio del transporte europeo justo antes de que se formara: la normativa comunitaria obliga a que en 2035 todos los autobuses urbanos adquiridos sean cero emisiones. CAF no compró un fabricante de autobuses; compró el primer puesto de la parrilla de una carrera que la regulación acababa de convocar.</p>
+
+      <p><strong>La segunda: la recurrencia.</strong> Servicios y mantenimiento como segunda pata estructural — el mismo manual que sostiene a los buenos industriales de proyecto. CAF mantiene hoy unos 12.000 coches ferroviarios bajo más de 150 contratos de servicios en 20 países, con 4.000 personas dedicadas y una tasa de renovación de contratos superior al 90%. Es el colchón de caja predecible que la fabricación, por sí sola, nunca dará.</p>
+
+      <p><strong>La tercera, y la menos visible: aprender a decir que no.</strong> El plan estratégico 2023-2026 fija unos objetivos concretos — unos 4.800 millones de ingresos y en torno a 300 millones de EBIT — pero su palabra clave es otra: <em>selectividad</em>. «Selective order intake», contratación alineada con las prioridades del grupo, book-to-bill igual o superior a 1 como disciplina y no como aspiración. En un sector donde la tentación permanente es comprar cartera a cualquier margen para alimentar las fábricas, la decisión de filtrar qué se firma es la más contracultural de las tres. A ella se añade una apuesta tecnológica silenciosa: controlar la señalización propia — el sistema CBTC bautizado OPTIO — para no depender de terceros en la capa de mayor valor añadido del sistema ferroviario.</p>
+
+      <h3><span class="rom">IV.</span>La ejecución</h3>
+
+      <p>Los resultados de 2025, presentados el 27 de febrero de 2026, son la validación más completa de esa doctrina hasta la fecha. La compañía cumplió todos los objetivos del año en todas las métricas clave.</p>
+
+      <p><strong>Crecimiento.</strong> Ingresos de 4.487 millones de euros, un 7% más — con lo que el objetivo orgánico de 4.400 millones del plan estratégico se alcanzó un año antes de lo previsto. EBIT de 246 millones, un 14% más, doblando el ritmo de crecimiento de las ventas, con el margen subiendo del 5,1% al 5,5%. Beneficio neto atribuido de 146 millones, un 42% más. Dividendo propuesto de 1,52 euros por acción, un 14% más.</p>
+
+      <p><strong>Contratación.</strong> 6.027 millones de entrada de pedidos, un 28% más, con un book-to-bill de 1,3 veces. La cartera cerró el año en 16.235 millones — máximo histórico, 3,6 veces las ventas — tras crecer un 68% en cuatro años.</p>
+
+      <p><strong>Solaris, la revelación.</strong> El negocio de autobuses facturó 1.183 millones, un 28% más, con 1.631 vehículos entregados y un dato que define la posición competitiva: el 79% de las entregas fueron cero emisiones, máximo histórico. Su contratación superó por primera vez los 2.000 millones. Su margen EBIT alcanzó el 6,3% — el más alto desde la adquisición en 2018, ya por encima del negocio ferroviario. Y su cuota: 13,7% del mercado europeo de autobuses urbanos cero emisiones en 2025, líder acumulado desde 2012, con un dominio del 58% en el nicho de hidrógeno. El negocio que nadie entendió en 2018 es hoy el motor de crecimiento y de margen del grupo.</p>
+
+      <p><strong>Servicios.</strong> La contratación de servicios ferroviarios pasó de 671 a 1.714 millones en un año — un 155% más, con un book-to-bill de 2,3 veces.</p>
+
+      <p><strong>Balance.</strong> Deuda neta de 188 millones, 0,5 veces EBITDA. Liquidez de 1.240 millones. Caja generada de 88 millones en un año de fuerte crecimiento de actividad. ROCE del 16,1%, el más alto de la serie reciente. Ni ampliaciones, ni rescates, ni convertibles: la fotografía inversa, línea por línea, del balance que describíamos hace dos semanas.</p>
+
+      <p>El mercado tardó años en pagar esta consistencia, y en 2025 la pagó de golpe: la acción subió un 69%, de mínimos de 33,3 euros a máximos de 59,5, cerrando el año con una capitalización de unos 2.019 millones.</p>
+
+      <h3><span class="rom">V.</span>El punto de inflexión</h3>
+
+      <p>Y entonces llegó el primer trimestre de 2026, que convirtió un buen momento en un cambio de categoría.</p>
+
+      <p>En enero se firmó el contrato de SNCB — superados ya los recursos de Siemens y Alstom — y entró en cartera. Ese mismo mes, CAF firmó la modernización de la señalización de todo el metro de Helsinki con su sistema OPTIO, por más de 60 millones: su entrada comercial en el mercado CBTC. Semanas antes, el consorcio liderado por CAF se había adjudicado la línea 10 del metro de Nápoles — su primer metro completamente automático GoA4 con señalización propia. Traducido: CAF ya no solo vende el tren; empieza a vender el cerebro que lo conduce.</p>
+
+      <p>Los números del trimestre, publicados el 7 de mayo, son los de un récord absoluto: 2.883 millones de contratación en un solo trimestre, un 42% más, con un book-to-bill de 2,5 veces para el grupo y de 3,0 en ferroviario. La cartera saltó a 17.960 millones — un 11% más en noventa días —, equivalente a 4,0 veces las ventas anuales, 4,7 veces en el negocio ferroviario. Y esa cartera <em>excluye</em> cerca de 900 millones adicionales en contratos ya anunciados pendientes de incorporación — la rehabilitación del metro de El Cairo, el proyecto automático de Nápoles, trenes de cercanías para Belgrado — y más de 11.000 millones en opciones ejercitables por clientes bajo contratos vigentes.</p>
+
+      <p>Mientras tanto, Solaris firmó pedidos por 484 autobuses en el trimestre, el 98% cero emisiones, incluyendo más de 200 unidades para Suecia. Y en la segunda mitad de 2026 están previstas las primeras entregas de sus contratos norteamericanos — Seattle, San Francisco y los 184 trolebuses de Vancouver, con opciones por más de 400 vehículos adicionales —, mientras arranca la adaptación de la planta ferroviaria de CAF en Estados Unidos para futuros proyectos de autobuses con requisitos de contenido local.</p>
+
+      <p>El resultado es una situación insólita en el Mercado Continuo español: una industrial con la demanda de la próxima década ya firmada. La pregunta del negocio se ha desplazado por completo. Ya no es <em>si venderá</em>. Es <em>a qué margen fabricará lo vendido</em>.</p>
+
+      <h3><span class="rom">VI.</span>La pregunta abierta</h3>
+
+      <p>Porque el margen es, y sigue siendo, el otro lado del libro.</p>
+
+      <p>Un 5,5% de margen EBIT — 5,4% en el primer trimestre de 2026 — es un buen dato para la historia reciente de CAF y un dato mediocre para el capital en términos absolutos. La media de la década es el 6%. Cada euro de esa cartera de 18.000 millones se ejecutará a lo largo de muchos años, y el ritmo al que los proyectos antiguos dañados por la inflación salen de la cuenta de resultados — y los nuevos, firmados con mejores precios e indexaciones, entran — determinará si CAF es una <em>compounder</em> industrial o un eterno negocio de volumen. La propia compañía guía para 2026 «mejora de rentabilidad» y el plan estratégico apunta a unos 300 millones de EBIT; el primer trimestre, con su +0,3 puntos de margen, va en la dirección correcta pero no despeja la magnitud.</p>
+
+      <p>La ejecución tampoco es gratis. La cartera ferroviaria equivale a 4,7 años de ventas: es visibilidad, y es también compromiso industrial — capacidad, plantilla, cadena de suministro — asumido por una organización que factura 4.500 millones. Los proyectos de Oriente Medio siguen afectados en su ritmo por el conflicto de la región, como la propia compañía reconoce. Y hay un frente que las presentaciones de resultados tratan con asepsia pero que el lector debe conocer: el tren ligero de Jerusalén. La participación de CAF en la ampliación de las líneas que conectan asentamientos ha llevado a la compañía a un informe de Naciones Unidas, a comunicar información material a la CNMV, a una denuncia que la Fiscalía española investiga desde abril de 2026 — y fue usada como munición por sus rivales durante la batalla belga. No ha frenado ni un contrato hasta la fecha; es, aun así, el riesgo reputacional abierto más serio de la compañía, y en un negocio cuyo cliente es casi siempre un gobierno, la reputación es parte del producto.</p>
+
+      <p>El mercado, por su parte, ya no ignora a CAF: la acción cotiza en el entorno de los 64 euros, cerca de sus máximos históricos, tras revalorizarse más de un 40% adicional en lo que va de 2026. La discreción bursátil se acabó; la exigencia empieza ahora.</p>
+
+      <p>La pregunta con la que cerramos es la inversa de las dos ediciones anteriores. Grenergy y Talgo debían demostrar que su modelo comercial aguantaba; CAF ya lo demostró — la década que viene está vendida. Lo que debe demostrar es más árido y, para el inversor, más decisivo: <strong>¿puede el fabricante que aprendió a decir que no convertir la mayor cartera de su historia en márgenes que por fin traten al capital como socio y no como combustible?</strong> La carrera entre la cartera nueva bien contratada que entra en la cuenta de resultados y los proyectos viejos heridos por la inflación que salen de ella es la única gráfica que de verdad importa en este ticker.</p>
+
+      <h2>Tres señales</h2>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">1 ·</span>Los resultados del primer semestre — hoy, 30 de julio</p>
+        <p>El trimestre uno mostró una caída del 5% en ingresos ferroviarios por un efecto contable, con la compañía prometiendo recuperación «hacia junio de 2026» apoyada en un crecimiento de doble dígito en coches terminados. La cuenta que se publica hoy es la primera verificación de esa promesa — y de si los cerca de 900 millones pendientes (El Cairo, Nápoles, Belgrado) ya han entrado en cartera.</p>
+      </div>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">2 ·</span>El margen EBIT, trimestre a trimestre</p>
+        <p>La guía de 2026 promete rentabilidad mejorada y el plan estratégico apunta a unos 300 millones de EBIT. La variable a vigilar no es el número agregado, sino su composición: cuánto pesa todavía la cartera antigua afectada por la inflación en el margen ferroviario, y si Solaris sostiene el 6,3% alcanzado en 2025, su máximo desde la adquisición.</p>
+      </div>
+
+      <div class="senal">
+        <p class="senal-t"><span class="senal-n">3 ·</span>Solaris en Norteamérica</p>
+        <p>Las primeras entregas de Seattle, San Francisco y Vancouver están previstas para el segundo semestre de 2026, fabricadas en Polonia, mientras se adapta la planta estadounidense de CAF para futuros pedidos con requisitos de contenido local. De su ejecución depende que Norteamérica se convierta en el segundo mercado doméstico del negocio de autobuses — o en una aventura cara en el peor momento arancelario posible.</p>
+      </div>
+
+      <h2>La próxima</h2>
+
+      <p>La siguiente historia nos espera en Palma de Mallorca, en una compañía que casi nadie sabría nombrar y por cuyos sistemas pasan más de 46 millones de noches de hotel al año. Protagonizó la mayor salida a bolsa española del último ciclo, y su primer año como cotizada es una lección sobre lo que el mercado primario español hace bien — y lo que sigue haciendo mal.</p>
+
+      <p>Si trabajas en mercados de capitales, ya sabes de quién hablamos.</p>
+
+      <div class="firma">
+        <p class="f-nombre">— FORO</p>
+        <p class="f-tag">El negocio detrás del ticker</p>
+      </div>
+
+      <p class="nota-legal">Nota editorial: Foro elige libremente las compañías que cubre y no recibe compensación alguna de ellas por esta cobertura. Esta edición se ha elaborado exclusivamente con información pública (comunicaciones a la CNMV, presentaciones de resultados de la compañía e informaciones de prensa citables). Foro no es una empresa de servicios de inversión: nada de lo anterior constituye una recomendación de inversión, un precio objetivo ni asesoramiento financiero.</p>
+
+      <a class="volver-indice" href="#ediciones">↑ Volver al índice de ediciones</a>
+
+    </div>
+  </div>
+</article>
+
+<!-- ================= EDICIÓN · TALGO ================= -->
 <article class="edicion" id="talgo">
   <div class="wrap">
     <div class="art-head">
@@ -368,9 +526,9 @@
 
       <h2>La próxima</h2>
 
-      <p>La siguiente historia sigue esperándonos en Palma de Mallorca, en una compañía que casi nadie sabría nombrar y por cuyos sistemas pasan más de 46 millones de noches de hotel al año. Protagonizó la mayor salida a bolsa española del último ciclo, y su primer año como cotizada es una lección sobre lo que el mercado primario español hace bien — y lo que sigue haciendo mal.</p>
+      <p>La siguiente historia no se baja del tren: a cien kilómetros de Bilbao, en un pueblo guipuzcoano de catorce mil habitantes, opera el otro fabricante español de material rodante. El que nadie quiso comprar porque nunca estuvo en venta, el que casi no genera titulares — y el que acaba de arrebatarles a Alstom y Siemens el contrato ferroviario más disputado de Europa.</p>
 
-      <p>Si trabajas en mercados de capitales, ya sabes de quién hablamos.</p>
+      <p>Mismo sector. Mismo país. La historia exactamente inversa.</p>
 
       <div class="firma">
         <p class="f-nombre">— FORO</p>
@@ -556,10 +714,23 @@
 /* =========================================================
    Registro de ediciones.
    Para añadir una edición futura:
-   1) Añadir el <article> con su id.
-   2) Añadir un objeto a este array. Nada más.
+   1) Añadir el <article class="edicion"> con su id.
+   2) Añadir un objeto a este array (la más reciente, primero).
+   El índice muestra siempre todas las ediciones; abajo solo se
+   renderiza la edición seleccionada. Al cargar la página se
+   abre automáticamente la más reciente.
    ========================================================= */
 const EDICIONES = [
+  {
+    id: "caf",
+    fecha: "30 · Jul · 2026",
+    empresa: "CAF",
+    ticker: "BME: CAF",
+    titulo: "Dieciocho mil millones sin hacer ruido",
+    resumen: "El fabricante discreto que le ganó el «contrato del siglo» a Alstom y Siemens — y su carrera por el margen.",
+    lectura: "12–14 min",
+    actual: true
+  },
   {
     id: "talgo",
     fecha: "16 · Jul · 2026",
@@ -568,7 +739,7 @@ const EDICIONES = [
     titulo: "Seis mil millones en cartera, trescientos en bolsa",
     resumen: "El fabricante que todo el mundo quiso comprar, rescatado — y con la mayor cartera de su historia.",
     lectura: "12–14 min",
-    actual: true
+    actual: false
   },
   {
     id: "grenergy",
@@ -582,7 +753,7 @@ const EDICIONES = [
   },
   {
     id: null, // sin artículo todavía → fila "próximamente"
-    fecha: "Jul · 2026",
+    fecha: "13 · Ago · 2026",
     empresa: "Próxima edición",
     ticker: "BME",
     titulo: "46 millones de noches de hotel al año",
@@ -592,18 +763,22 @@ const EDICIONES = [
   }
 ];
 
+/* ---------- Render del índice ---------- */
 (function renderRegistro(){
   const ol = document.getElementById("registro");
   EDICIONES.forEach(ed => {
     const li = document.createElement("li");
-    const enlace = ed.id ? `href="#${ed.id}"` : 'tabindex="-1" aria-disabled="true"';
+    const atributos = ed.id
+      ? `href="#${ed.id}" data-edicion="${ed.id}" role="button" aria-controls="${ed.id}"`
+      : 'tabindex="-1" aria-disabled="true"';
     li.innerHTML = `
-      <a class="fila ${ed.id ? "" : "proxima"}" ${enlace}>
+      <a class="fila ${ed.id ? "" : "proxima"}" ${atributos}>
         <span class="fecha">${ed.fecha}</span>
         <span class="cuerpo">
           <h3>${ed.titulo}
             <span class="ticker">${ed.ticker}</span>
             ${ed.actual ? '<span class="badge-actual">Edición actual</span>' : ""}
+            <span class="badge-leyendo">Leyendo</span>
           </h3>
           <p>${ed.empresa} — ${ed.resumen}</p>
         </span>
@@ -614,6 +789,41 @@ const EDICIONES = [
   const publicadas = EDICIONES.filter(e => e.id).length;
   document.getElementById("contador-ediciones").textContent =
     publicadas + (publicadas === 1 ? " edición publicada" : " ediciones publicadas");
+})();
+
+/* ---------- Apertura de ediciones: una sola visible a la vez ---------- */
+function abrirEdicion(id, desplazar){
+  // Mostrar solo el artículo seleccionado
+  document.querySelectorAll("article.edicion").forEach(art => {
+    art.classList.toggle("abierta", art.id === id);
+  });
+  // Marcar la fila activa en el índice
+  document.querySelectorAll(".registro a.fila[data-edicion]").forEach(fila => {
+    const activa = fila.dataset.edicion === id;
+    fila.classList.toggle("leyendo", activa);
+    if(activa){ fila.setAttribute("aria-current","true"); }
+    else{ fila.removeAttribute("aria-current"); }
+  });
+  if(desplazar){
+    const destino = document.getElementById(id);
+    if(destino){ destino.scrollIntoView({behavior:"smooth", block:"start"}); }
+  }
+}
+
+/* Clic en el índice → abrir esa edición debajo */
+document.getElementById("registro").addEventListener("click", function(ev){
+  const fila = ev.target.closest("a.fila[data-edicion]");
+  if(!fila) return;
+  ev.preventDefault();
+  abrirEdicion(fila.dataset.edicion, true);
+});
+
+/* Al cargar: abrir la más reciente (o la indicada en la URL con #id) */
+(function abrirInicial(){
+  const hash = window.location.hash.replace("#","");
+  const existe = hash && EDICIONES.some(e => e.id === hash);
+  const inicial = existe ? hash : (EDICIONES.find(e => e.id) || {}).id;
+  if(inicial){ abrirEdicion(inicial, false); }
 })();
 
 /* Fecha viva en la mancheta */
